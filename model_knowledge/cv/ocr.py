@@ -1,3 +1,4 @@
+import io
 import os
 import torch
 import numpy as np
@@ -17,11 +18,12 @@ _ocr = CnOcr(rec_model_fp=str(_rec_model_path), det_model_fp=str(_det_model_path
 
 
 # @timeit
-def ocr(img_fp: Union[str, Image.Image, torch.Tensor, np.ndarray], aligning=True,
+def ocr(img_fp: Union[str, bytes, Image.Image, torch.Tensor, np.ndarray], aligning=True,
         aligning_threshold=5):
     """
     Optical Character Recognition
     :param img_fp: image file path;
+                or image file bytes;
                 or loaded image by `Image.open()`;
                 or color image torch.Tensor or np.ndarray,
                     with shape [height, width] or [height, width, channel].
@@ -34,6 +36,9 @@ def ocr(img_fp: Union[str, Image.Image, torch.Tensor, np.ndarray], aligning=True
                 - 'position'
                 - 'cropped_img'
     """
+    if isinstance(img_fp, bytes):
+        img_fp = Image.open(io.BytesIO(img_fp))
+        img_fp.show()
     res = _ocr.ocr(img_fp)
     if aligning:
         text = res[0].get('text', '') if res else ''

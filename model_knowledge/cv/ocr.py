@@ -38,7 +38,6 @@ def ocr(img_fp: Union[str, bytes, Image.Image, torch.Tensor, np.ndarray], aligni
     """
     if isinstance(img_fp, bytes):
         img_fp = Image.open(io.BytesIO(img_fp))
-        img_fp.show()
     res = _ocr.ocr(img_fp)
     if aligning:
         text = res[0].get('text', '') if res else ''

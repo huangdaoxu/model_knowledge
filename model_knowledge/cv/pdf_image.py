@@ -1,6 +1,8 @@
 import fitz
 import logging
 
+from model_knowledge.cv.ocr import ocr
+
 
 logger = logging.getLogger("default")
 
@@ -20,3 +22,10 @@ def extract_images(file):
             except Exception as e:
                 logger.exception(e)
 
+
+def image2txt(file):
+    text = ''
+    images = extract_images(file=file)
+    for image in images:
+        text += ocr(image)
+    return text

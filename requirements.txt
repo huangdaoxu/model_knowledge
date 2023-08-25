@@ -6,3 +6,10 @@ torch==2.0.1
 Pillow==9.5.0
 pdfplumber==0.9.0
 PyMuPDF==1.22.5
+wheel==0.40.0
+opencv-python-headless==4.7.0.72
+python-docx==0.8.11
+docx2txt==0.8
+transformers==4.30.2
+sqlparse==0.4.4
+sql_metadata==2.8.0

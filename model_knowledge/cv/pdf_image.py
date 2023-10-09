@@ -1,5 +1,8 @@
 import fitz
+import io
 import logging
+
+from PIL import Image
 
 from model_knowledge.cv.ocr import ocr
 
@@ -23,9 +26,14 @@ def extract_images(file):
                 logger.exception(e)
 
 
-def image2txt(file):
+def image2txt(file, bbox=None):
     text = ''
     images = extract_images(file=file)
     for image in images:
+        image = Image.open(io.BytesIO(image))
+        if bbox:
+            box = (bbox[0] * image.width, bbox[1] * image.height,
+                   (1 - bbox[2]) * image.width, (1 - bbox[3]) * image.height)
+            image = image.crop(box)
         text += ocr(image)
     return text
